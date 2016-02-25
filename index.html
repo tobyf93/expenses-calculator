@@ -34,27 +34,55 @@
 
   <script>
     $('#calculate').on('click', function() {
-      var expenses = $('tbody tr th input');
+      var expenses = $('tbody input');
 
       for (var i = 0; i < expenses.length; i++) {
         var expense = expenses[i];
-        console.log(expense.className);
 
         if (parseFloat(expense.val) > 0) {
           continue;
         }
 
+        var $weekly = $('.weekly');
+        var weekly = parseFloat($weekly.val());
+        var $monthly = $('.monthly');
+        var monthly = parseFloat($monthly.val());
+        var $quarterly = $('.quarterly');
+        var quarterly = parseFloat($quarterly.val());
+        var $annually = $('.annually');
+        var annually = parseFloat($annually.val());
+
         if (expense.className === 'weekly') {
-          var monthly = parseFloat($('.monthly').val);
-          var quaterly = parseFloat($('.quarterly').val);
-          var annually = parseFloat($('.annually').val);
-
           if (monthly > 0) {
-
-          } else if (quaterly > 0) {
-
+            $weekly.val((monthly * 12) / 52);
+          } else if (quarterly > 0) {
+            $weekly.val((quarterly * 4) / 52);
           } else if (annually > 0) {
-
+            $weekly.val(annually / 52);
+          }
+        } else if (expense.className === 'monthly') {
+          if (weekly > 0) {
+            $monthly.val((weekly * 52) / 12);
+          } else if (quarterly > 0) {
+            $monthly.val(quarterly / 3);
+          } else if (annually > 0) {
+            $monthly.val(annually / 12);
+          }
+        } else if (expense.className === 'quarterly') {
+          if (weekly > 0) {
+            $quarterly.val((weekly * 52) / 4);
+          } else if (monthly > 0) {
+            $quarterly.val(monthly * 3);
+          } else if (annually > 0) {
+            $quarterly.val(annually / 4);
+          }
+        } else if (expense.className === 'annually') {
+          if (weekly > 0) {
+            $annually.val(weekly * 52);
+          } else if (monthly > 0) {
+            $annually.val(monthly * 12);
+          } else if (quarterly > 0) {
+            $annually.val(quarterly * 4);
           }
         }
       }
