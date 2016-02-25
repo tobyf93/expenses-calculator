@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expenses Calculator</title>
+  <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"></style>
+</head>
+<body>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Expense</th>
+        <th>Weekly</th>
+        <th>Monthly</th>
+        <th>Quarterly</th>
+        <th>Annually</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th><input type="text"></th>
+        <th><input class="weekly" type="text"></th>
+        <td><input class="monthly" type="text"></td>
+        <td><input class="quarterly" type="text"></td>
+        <td><input class="annually" type="text"></td>
+        <td>Add</td>
+      </tr>
+    </tbody>
+  </table>
+  <button id="calculate">Calculate Expenses</button>
+
+  <script>
+    $('#calculate').on('click', function() {
+      var expenses = $('tbody tr th input');
+
+      for (var i = 0; i < expenses.length; i++) {
+        var expense = expenses[i];
+        console.log(expense.className);
+
+        if (parseFloat(expense.val) > 0) {
+          continue;
+        }
+
+        if (expense.className === 'weekly') {
+          var monthly = parseFloat($('.monthly').val);
+          var quaterly = parseFloat($('.quarterly').val);
+          var annually = parseFloat($('.annually').val);
+
+          if (monthly > 0) {
+
+          } else if (quaterly > 0) {
+
+          } else if (annually > 0) {
+
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
