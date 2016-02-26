@@ -22,11 +22,11 @@
     <tbody>
       <tr>
         <th><input type="text"></th>
-        <th><input class="weekly" type="text"></th>
+        <td><input class="weekly" type="text"></td>
         <td><input class="monthly" type="text"></td>
         <td><input class="quarterly" type="text"></td>
         <td><input class="annually" type="text"></td>
-        <td>Add</td>
+        <td id="add">Add</td>
       </tr>
     </tbody>
   </table>
@@ -34,58 +34,74 @@
 
   <script>
     $('#calculate').on('click', function() {
-      var expenses = $('tbody input');
+      var $expensesRows = $('tbody tr');
 
-      for (var i = 0; i < expenses.length; i++) {
-        var expense = expenses[i];
+      for (var i = 0; i < $expensesRows.length; i++) {
+        var $expensesRow = $($expensesRows[i]);
+        var $expenses = $expensesRows.find('input');
 
-        if (parseFloat(expense.val) > 0) {
-          continue;
-        }
+        $expenses.each(function(idx, expense) {
+          if (parseFloat(expense.val) > 0) {
+            return;
+          }
 
-        var $weekly = $('.weekly');
-        var weekly = parseFloat($weekly.val());
-        var $monthly = $('.monthly');
-        var monthly = parseFloat($monthly.val());
-        var $quarterly = $('.quarterly');
-        var quarterly = parseFloat($quarterly.val());
-        var $annually = $('.annually');
-        var annually = parseFloat($annually.val());
+          var $weekly = $expensesRow.find('.weekly');
+          var weekly = parseFloat($weekly.val());
+          var $monthly = $expensesRow.find('.monthly');
+          var monthly = parseFloat($monthly.val());
+          var $quarterly = $expensesRow.find('.quarterly');
+          var quarterly = parseFloat($quarterly.val());
+          var $annually = $expensesRow.find('.annually');
+          var annually = parseFloat($annually.val());
 
-        if (expense.className === 'weekly') {
-          if (monthly > 0) {
-            $weekly.val((monthly * 12) / 52);
-          } else if (quarterly > 0) {
-            $weekly.val((quarterly * 4) / 52);
-          } else if (annually > 0) {
-            $weekly.val(annually / 52);
+          if (expense.className === 'weekly') {
+            if (monthly > 0) {
+              $weekly.val((monthly * 12) / 52);
+            } else if (quarterly > 0) {
+              $weekly.val((quarterly * 4) / 52);
+            } else if (annually > 0) {
+              $weekly.val(annually / 52);
+            }
+          } else if (expense.className === 'monthly') {
+            if (weekly > 0) {
+              $monthly.val((weekly * 52) / 12);
+            } else if (quarterly > 0) {
+              $monthly.val(quarterly / 3);
+            } else if (annually > 0) {
+              $monthly.val(annually / 12);
+            }
+          } else if (expense.className === 'quarterly') {
+            if (weekly > 0) {
+              $quarterly.val((weekly * 52) / 4);
+            } else if (monthly > 0) {
+              $quarterly.val(monthly * 3);
+            } else if (annually > 0) {
+              $quarterly.val(annually / 4);
+            }
+          } else if (expense.className === 'annually') {
+            if (weekly > 0) {
+              $annually.val(weekly * 52);
+            } else if (monthly > 0) {
+              $annually.val(monthly * 12);
+            } else if (quarterly > 0) {
+              $annually.val(quarterly * 4);
+            }
           }
-        } else if (expense.className === 'monthly') {
-          if (weekly > 0) {
-            $monthly.val((weekly * 52) / 12);
-          } else if (quarterly > 0) {
-            $monthly.val(quarterly / 3);
-          } else if (annually > 0) {
-            $monthly.val(annually / 12);
-          }
-        } else if (expense.className === 'quarterly') {
-          if (weekly > 0) {
-            $quarterly.val((weekly * 52) / 4);
-          } else if (monthly > 0) {
-            $quarterly.val(monthly * 3);
-          } else if (annually > 0) {
-            $quarterly.val(annually / 4);
-          }
-        } else if (expense.className === 'annually') {
-          if (weekly > 0) {
-            $annually.val(weekly * 52);
-          } else if (monthly > 0) {
-            $annually.val(monthly * 12);
-          } else if (quarterly > 0) {
-            $annually.val(quarterly * 4);
-          }
-        }
+        });
       }
+    });
+
+    $('#add').on('click', function() {
+      var $tbody = $('tbody');
+      var $tr = $('<tr>');
+
+      $tr.append('<td><input type="text"></td>');
+      $tr.append('<td><input class="weekly" type="text"></td>');
+      $tr.append('<td><input class="monthly" type="text"></td>');
+      $tr.append('<td><input class="quarterly" type="text"></td>');
+      $tr.append('<td><input class="annually" type="text"></td>');
+
+      $tbody.append($tr);
     });
   </script>
 </body>
